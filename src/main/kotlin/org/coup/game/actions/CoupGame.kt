@@ -65,15 +65,16 @@ class CoupGame(
     fun removeInfluence(player: Player) {
         println("${player.name} lost an influence")
         player.removeInfluence(1)
-        checkPlayerInfluence()
+        checkPlayerInfluence(player)
     }
 
     /**
-     * Checks if any [players] have no more influences. If so, they are eliminated from the game.
+     * Checks if a [player] has no more influences. If so, they are eliminated from the game.
+     *
+     * @param player The player to check
      */
-    private fun checkPlayerInfluence() {
-        val eliminatedPlayers = players.filter { it.influence == 0 }
-        eliminatedPlayers.forEach { player ->
+    private fun checkPlayerInfluence(player: Player) {
+        if (player.influence == 0) {
             println("${player.name} lost the game")
             players.remove(player)
         }
