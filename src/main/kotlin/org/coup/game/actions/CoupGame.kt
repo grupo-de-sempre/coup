@@ -14,12 +14,32 @@ class CoupGame(
     private var players: MutableList<Player> = mutableListOf()
 ) {
     private var bank = 50
-    private var deck = null;
+    private var deck: MutableList<Influence> = mutableListOf()
 
     init {
+        deck = createDeck()
         players.forEach { player ->
             incrementCoins(player, 2)
-            player.addInfluence(2)
+            repeat(2) { dealCard(player) }
+        }
+    }
+
+    private fun createDeck(): MutableList<Influence> {
+        val deck = mutableListOf<Influence>()
+        repeat(3) {
+            deck.add(Duke)
+            deck.add(Assassin)
+            deck.add(Captain)
+            deck.add(Ambassador)
+            deck.add(Contessa)
+        }
+        return deck
+    }
+
+    fun dealCard(player: Player) {
+        deck.shuffled().first().let { influence ->
+            player.influences += influence
+            deck.remove(influence)
         }
     }
 
@@ -64,7 +84,7 @@ class CoupGame(
      */
     fun removeInfluence(player: Player) {
         println("${player.name} lost an influence")
-        player.removeInfluence(1)
+        player.influences -= player.influences.random()
         checkPlayerInfluence(player)
     }
 
@@ -74,7 +94,7 @@ class CoupGame(
      * @param player The player to check
      */
     private fun checkPlayerInfluence(player: Player) {
-        if (player.influence == 0) {
+        if (player.influences == emptySet<Influence>()) {
             println("${player.name} lost the game")
             players.remove(player)
         }

@@ -5,14 +5,13 @@ package org.coup.game.actions
  *
  * @param name The name of the player.
  * @property coins The number of coins the player has.
- * @property influence The influence the player has.
+ * @property influences The influence the player has.
  * @constructor Creates a new player.
  */
 data class Player(val name: String) {
     var coins: Int = 0
         private set
-    var influence: Int = 0
-        private set
+    var influences: MutableSet<Influence> = mutableSetOf()
 
     /**
      * Increments the number of coins the player has.
@@ -30,19 +29,5 @@ data class Player(val name: String) {
      */
     fun decrementCoins(amount: Int) {
         coins -= amount
-    }
-
-    /**
-     * Adds influence to the player.
-     */
-    fun addInfluence(number: Int) {
-        influence += number
-    }
-
-    /**
-     * Removes influence from the player.
-     */
-    fun removeInfluence(number: Int) {
-        influence -= number
     }
 }
